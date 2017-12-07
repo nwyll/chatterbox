@@ -1,17 +1,10 @@
 .App {
     background-color: white;
-    width: 100%;
-    height: 100%;
 }
 
-.App > div {
-     margin: 0 0 50px 0;
-     min-width: 500px;
-     width: 100%;
-}
-
-.css-table {
-  display: table;
+.wrap {
+    display:table;
+    height:100%;
 }
 
 /*Sidebar*/
@@ -19,6 +12,7 @@
 .sidebar {
     display: table-cell;
     width: 30%;
+    height: 100%;
     padding: 10px;
     background-color: lightgray;
     z-index: 1;
@@ -46,6 +40,7 @@
 .chatspace {
     display: table-cell;
     width: 70%;
+    height: 100%;
     padding: 10px;
     background-color: white;
     z-index: 1;
@@ -75,11 +70,8 @@
 }
 
 .new-message-field {
+    position: fixed;
     bottom: 0;
     padding-bottom: 5px;
-    position: fixed;
-}
-
-.message-box {
-    width: 800px;
+    width: 500px;
 }

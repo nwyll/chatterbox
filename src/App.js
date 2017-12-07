@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
 import RoomList from './components/RoomList/RoomList';
-// import Modal from './components/Modal';
+import RoomModal from './components/Modals/RoomModal';
 
 // Initialize Firebase
 var config = {
@@ -16,41 +16,32 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends Component {
-  // constructor(props){
-  //   super(props);
-  //
-  //   this.state = {
-  //     isOpen: false
-  //   };
-  // }
-  //
-  // toggleModal = () => {
-  //   this.setState({ isOpen: !this.state.isOpen });
-  // }
-  //
-  // createRoom = () => {
-  //   this.setState({ isOpen: !this.state.isOpen });
-  //   //firebase create new room
-  // }
+  constructor(props){
+    super(props);
 
+    this.state = {
+      isOpen: false
+    };
+  }
+
+  toggleModal = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  }
+modalStyle
   render() {
     return (
       <div className="App">
-        <div className="css-table">
+        <div className="wrap">
+
           {/* Sidebar */}
           <div className="sidebar">
             <div className="sidebar-header">
               <h1 className="sidebar-title">ChatterBox</h1>
               {/* New Room Button */}
-              {/* <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
-              <Modal show={this.state.isOpen} onCancel={this.toggleModal} onCreate={this.createRoom}>
-                <div className="modal-header">
-                  <h2>Create a new room</h2>
-                </div>
-                <form>
-                  <input type="text" name="roomname" placeholder="Enter a room name" />
-                </form>
-              </Modal> */}
+              <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
+              <RoomModal show={this.state.isOpen}
+                onCancel={this.toggleModal}
+                firebase={firebase} />
             </div>
             <div className="sidebar-body">
               {/* Room List - pass firebase in props */}
@@ -78,6 +69,7 @@ class App extends Component {
               <button className="btn-new-message" type="button">Send message</button>
             </div>
           </div>
+
         </div>
       </div>
     );
