@@ -24,7 +24,9 @@ class RoomList extends Component {
       <div className="room-list">
         {
           this.state.rooms.map( (room) =>
-            <p key={room.key} className="room-name">{ room.name }</p>
+            <p key={room.key}>
+              <a className="room-name" onClick={(e) => this.props.openRoom(e, room)}>{ room.name }</a>
+            </p>
           )
         }
       </div>

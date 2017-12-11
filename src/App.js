@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
-import RoomList from './components/RoomList/RoomList';
+import RoomList from './components/RoomList';
 import RoomModal from './components/Modals/RoomModal';
+import MessageList from './components/MessageList';
 
 // Initialize Firebase
 var config = {
@@ -20,18 +21,24 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isOpen: false
+      modalIsOpen: false,
+      activeRoom: { name: 'JavaScript', key: "1"}
     };
+
+    this.openRoom = this.openRoom.bind(this);
   }
 
   toggleModal = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.setState({ modalIsOpen: !this.state.modalIsOpen });
   }
-modalStyle
+
+  openRoom(e, room)  {
+    this.setState({ activeRoom: room });
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="wrap">
 
           {/* Sidebar */}
           <div className="sidebar">
@@ -39,38 +46,33 @@ modalStyle
               <h1 className="sidebar-title">ChatterBox</h1>
               {/* New Room Button */}
               <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
-              <RoomModal show={this.state.isOpen}
+              <RoomModal show={this.state.modalIsOpen}
                 onCancel={this.toggleModal}
                 firebase={firebase} />
             </div>
             <div className="sidebar-body">
-              {/* Room List - pass firebase in props */}
-              <RoomList firebase={firebase}/>
+              {/* Room List */}
+              <RoomList firebase={firebase} openRoom={this.openRoom} />
             </div>
           </div>
 
           {/* ChatSpace */}
           <div className="chatspace">
             <div className="chatspace-header">
-              <h2>Current Room Name</h2>
+              <h2>{ this.state.activeRoom.name }</h2>
             </div>
-            <div className="message-list container">
-              {/* Messages */}
-              <div className="message-body">
-                <p className="username">message.username
-                  <span className="timestamp">   message.sentAt</span>
-                </p>
-                <p className="content">message.content</p>
-              </div>
-              {/* Messages */}
-            </div>
+
+            {/* Message List */}
+            <MessageList firebase={firebase}
+              activeRoomId={this.state.activeRoom.key} />
+
+            {/* New Message */}
             <div className="new-message-field">
               <input type="text" name="input" placeholder="Type your message here" />
               <button className="btn-new-message" type="button">Send message</button>
             </div>
           </div>
 
-        </div>
       </div>
     );
   }

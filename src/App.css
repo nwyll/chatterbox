@@ -69,6 +69,21 @@
     display: inline-block;
 }
 
+.room-name {
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.room-name:hover {
+    cursor: pointer;
+}
+
+.room-form {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 5px;
+}
 .new-message-field {
     position: fixed;
     bottom: 0;
