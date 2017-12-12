@@ -10,7 +10,7 @@ class RoomModal extends Component {
       newRoomName: ''
     };
 
-    this.newRoomName = this.newRoomName.bind(this);
+    // this.newRoomName = this.newRoomName.bind(this);
     this.roomsRef = this.props.firebase.database().ref('rooms');
   }
 
@@ -22,7 +22,7 @@ class RoomModal extends Component {
     });
   }
 
-  newRoomName =  (event) => {
+  newRoomName = (event) => {
     this.setState({ newRoomName: event.target.value});
   }
 

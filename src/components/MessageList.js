@@ -9,23 +9,47 @@ class MessageList extends Component {
     };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
+    this.getRoomMessages = this.getRoomMessages.bind(this);
+    this.createMessage = this.createMessage.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
 // console.log(nextProps.activeRoomId);
-    this.setState({ messages: []});
+    this.setState(() => {
+      return{ messages: [] }
+    });
     this.getRoomMessages(nextProps.activeRoomId);
   }
 
   getRoomMessages(activeRoomId) {
     const roomMessages = this.messagesRef.orderByChild("roomId").equalTo(activeRoomId);
+
     roomMessages.on('child_added', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
-      this.setState({messages: this.state.messages.concat( message )});
+      this.setState(() => {
+        return { messages: this.state.messages.concat( message ) }
+      });
 // console.log(this.state.messages);
     });
 // console.log(this.state.messages);
+  }
+
+  createMessage(e) {
+    e.preventDefault();
+    const newMessage = e.target.elements.newMessage.value;
+
+    if (newMessage) {
+      this.messaegesRef.push({
+        username: this.props.username,
+        content: newMessage,
+        sentAt: this.props.firebase.ServerValue.TIMESTAMP,
+        roomId: this.props.activeRoomId
+      });
+      e.target.elements.newMessage.value = '';
+
+      //call getRoomMessages again?
+    }
   }
 
     render () {
@@ -41,6 +65,11 @@ class MessageList extends Component {
             </div>
           )
         }
+        {/* New Message */}
+        <form onSubmit={this.createMessage}>
+          <input type="text" name="newMessage" placeholder="Type your message here" />
+          <button type="submit">Send message</button>
+        </form>
       </div>
     );
   }

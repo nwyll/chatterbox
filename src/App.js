@@ -44,62 +44,55 @@ class App extends Component {
   }
 
   setUser(user) {
-    console.log(user);
     this.setState(() => {
       return { currentUser: user }
     });
-    console.log(this.state.currentUser);
   }
 
   render() {
     return (
       <div className="App">
 
-          {/* Sidebar */}
-          <div className="sidebar">
-            <div className="sidebar-header">
-              <h1 className="sidebar-title">ChatterBox</h1>
-              {/* SignIn/SignOut */}
-              <User
-                firebase={firebase}
-                setUser={this.setUser}
-                currentUser={this.state.currentUser}
-              />
-              {/* New Room */}
-              <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
-              <RoomModal
-                show={this.state.modalIsOpen}
-                onCancel={this.toggleModal}
-                firebase={firebase}
-              />
-            </div>
-            <div className="sidebar-body">
-              {/* Room List */}
-              <RoomList
-                firebase={firebase}
-                openRoom={this.openRoom}
-              />
-            </div>
-          </div>
-
-          {/* ChatSpace */}
-          <div className="chatspace">
-            <div className="chatspace-header">
-              <h2>{ this.state.activeRoom.name }</h2>
-            </div>
-
-            {/* Message List */}
-            <MessageList
+        {/* Sidebar */}
+        <div className="sidebar">
+          <div className="sidebar-header">
+            <h1 className="sidebar-title">ChatterBox</h1>
+            {/* SignIn/SignOut */}
+            <User
               firebase={firebase}
-              activeRoomId={this.state.activeRoom.key}
+              setUser={this.setUser}
+              currentUser={this.state.currentUser}
             />
-
-            {/* New Message */}
-            <div className="new-message-field">
-              <input type="text" name="input" placeholder="Type your message here" />
-              <button className="btn-new-message" type="button">Send message</button>
-            </div>
           </div>
+          <div className="sidebar-body">
+            {/* Room List */}
+            <RoomList
+              firebase={firebase}
+              openRoom={this.openRoom}
+            />
+            {/* New Room */}
+            <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
+            <RoomModal
+              show={this.state.modalIsOpen}
+              onCancel={this.toggleModal}
+              firebase={firebase}
+            />
+          </div>
+        </div>
+
+        {/* ChatSpace */}
+        <div className="chatspace">
+          <div className="chatspace-header">
+            <h2>{ this.state.activeRoom.name }</h2>
+          </div>
+
+          {/* Message List */}
+          <MessageList
+            firebase={firebase}
+            activeRoomId={this.state.activeRoom.key}
+            username={this.state.currentUser.displayName}
+          />
+        </div>
 
       </div>
     );
