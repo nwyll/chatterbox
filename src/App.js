@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import RoomList from './components/RoomList';
 import RoomModal from './components/Modals/RoomModal';
 import MessageList from './components/MessageList';
+import User from './components/User';
 
 // Initialize Firebase
 var config = {
@@ -22,7 +23,7 @@ class App extends Component {
 
     this.state = {
       modalIsOpen: false,
-      activeRoom: { name: 'JavaScript', key: "1"}
+      activeRoom: { name: 'JavaScript', key: "1" }
     };
 
     this.openRoom = this.openRoom.bind(this);
@@ -44,6 +45,8 @@ class App extends Component {
           <div className="sidebar">
             <div className="sidebar-header">
               <h1 className="sidebar-title">ChatterBox</h1>
+              {/* SignIn/SignOut Button */}
+              <User firebase={firebase} />
               {/* New Room Button */}
               <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
               <RoomModal show={this.state.modalIsOpen}
