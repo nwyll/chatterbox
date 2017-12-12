@@ -4,12 +4,15 @@ class User extends Component {
   constructor(props){
     super(props);
 
-    this.state = {
-      currentUser: ''
-    }
-
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.firebase.auth().onAuthStateChanged( user => {
+      this.props.setUser(user);
+      console.log(user);
+    });
   }
 
   handleSignIn() {
@@ -24,10 +27,10 @@ class User extends Component {
       var credential = error.credential;
     });
 
-    var user = this.props.firebase.auth().currentUser;
-    this.setState(() => {
-      return { currentUser: user }
-    });
+    // var user = this.props.firebase.auth().currentUser;
+    // this.setState(() => {
+    //   return { currentUser: user }
+    // });
   }
 
   handleSignOut() {
@@ -35,16 +38,18 @@ class User extends Component {
       alert('Bye! See you next time on Chatterbox.')
     });
 
-    this.setState(() => {
-      return { currentUser: '' }
-    });
+    console.log(this.props.currentUser);
+
+    // this.setState(() => {
+    //   return { currentUser: '' }
+    // });
   }
 
   render() {
     let buttonElement = (<button onClick={this.handleSignIn}>Sign In</button>);
-    if(this.state.currentUser) {
+    if(this.props.currentUser != null) {
       buttonElement = (
-        <div>Hi, {this.state.currentUser.displayName}
+        <div>Hi, {this.props.currentUser.displayName}
           <button onClick={this.handleSignOut}>Sign Out</button>
         </div>
       );

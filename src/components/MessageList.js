@@ -12,7 +12,7 @@ class MessageList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-console.log(nextProps.activeRoomId);
+// console.log(nextProps.activeRoomId);
     this.setState({ messages: []});
     this.getRoomMessages(nextProps.activeRoomId);
   }
@@ -23,9 +23,9 @@ console.log(nextProps.activeRoomId);
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({messages: this.state.messages.concat( message )});
-      console.log(this.state.messages);
+// console.log(this.state.messages);
     });
-console.log(this.state.messages);
+// console.log(this.state.messages);
   }
 
     render () {

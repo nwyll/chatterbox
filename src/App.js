@@ -23,18 +23,32 @@ class App extends Component {
 
     this.state = {
       modalIsOpen: false,
-      activeRoom: { name: 'JavaScript', key: "1" }
+      activeRoom: { name: 'JavaScript', key: "1" },
+      currentUser: ''
     };
 
     this.openRoom = this.openRoom.bind(this);
+    this.setUser = this.setUser.bind(this);
   }
 
   toggleModal = () => {
-    this.setState({ modalIsOpen: !this.state.modalIsOpen });
+    this.setState(() => {
+      return { modalIsOpen: !this.state.modalIsOpen }
+    });
   }
 
   openRoom(e, room)  {
-    this.setState({ activeRoom: room });
+    this.setState(() => {
+      return { activeRoom: room }
+    });
+  }
+
+  setUser(user) {
+    console.log(user);
+    this.setState(() => {
+      return { currentUser: user }
+    });
+    console.log(this.state.currentUser);
   }
 
   render() {
@@ -45,17 +59,26 @@ class App extends Component {
           <div className="sidebar">
             <div className="sidebar-header">
               <h1 className="sidebar-title">ChatterBox</h1>
-              {/* SignIn/SignOut Button */}
-              <User firebase={firebase} />
-              {/* New Room Button */}
+              {/* SignIn/SignOut */}
+              <User
+                firebase={firebase}
+                setUser={this.setUser}
+                currentUser={this.state.currentUser}
+              />
+              {/* New Room */}
               <button type="button" className="new-room" onClick={this.toggleModal}>New Room</button>
-              <RoomModal show={this.state.modalIsOpen}
+              <RoomModal
+                show={this.state.modalIsOpen}
                 onCancel={this.toggleModal}
-                firebase={firebase} />
+                firebase={firebase}
+              />
             </div>
             <div className="sidebar-body">
               {/* Room List */}
-              <RoomList firebase={firebase} openRoom={this.openRoom} />
+              <RoomList
+                firebase={firebase}
+                openRoom={this.openRoom}
+              />
             </div>
           </div>
 
@@ -66,8 +89,10 @@ class App extends Component {
             </div>
 
             {/* Message List */}
-            <MessageList firebase={firebase}
-              activeRoomId={this.state.activeRoom.key} />
+            <MessageList
+              firebase={firebase}
+              activeRoomId={this.state.activeRoom.key}
+            />
 
             {/* New Message */}
             <div className="new-message-field">
