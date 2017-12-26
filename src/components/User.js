@@ -25,23 +25,12 @@ class User extends Component {
       var email = error.email;
       var credential = error.credential;
     });
-
-    // var user = this.props.firebase.auth().currentUser;
-    // this.setState(() => {
-    //   return { currentUser: user }
-    // });
   }
 
   handleSignOut() {
     this.props.firebase.auth().signOut().then(function() {
       alert('Bye! See you next time on Chatterbox.')
     });
-
-    console.log(this.props.currentUser);
-
-    // this.setState(() => {
-    //   return { currentUser: '' }
-    // });
   }
 
   render() {

@@ -23,7 +23,7 @@ class App extends Component {
 
     this.state = {
       modalIsOpen: false,
-      activeRoom: { name: 'JavaScript', key: "1" },
+      activeRoom: {},
       currentUser: ''
     };
 
@@ -83,7 +83,7 @@ class App extends Component {
         {/* ChatSpace */}
         <div className="chatspace">
           <div className="chatspace-header">
-            <h2>{ this.state.activeRoom.name }</h2>
+            <h2>{this.state.activeRoom.name}</h2>
           </div>
 
           {/* Message List */}

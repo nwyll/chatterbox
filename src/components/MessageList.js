@@ -14,25 +14,44 @@ class MessageList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-// console.log(nextProps.activeRoomId);
-    this.setState(() => {
-      return{ messages: [] }
-    });
+    this.setState({ messages: [] });
     this.getRoomMessages(nextProps.activeRoomId);
   }
 
   getRoomMessages(activeRoomId) {
-    const roomMessages = this.messagesRef.orderByChild("roomId").equalTo(activeRoomId);
+    if (activeRoomId) {
+      const roomMessages = this.messagesRef.orderByChild("roomId").equalTo(activeRoomId);
 
-    roomMessages.on('child_added', snapshot => {
-      const message = snapshot.val();
-      message.key = snapshot.key;
-      this.setState(() => {
-        return { messages: this.state.messages.concat( message ) }
+      roomMessages.on('child_added', snapshot => {
+        const message = snapshot.val();
+        message.key = snapshot.key;
+        this.setState(() => {
+          return { messages: this.state.messages.concat( message ) }
+        });
       });
-// console.log(this.state.messages);
-    });
-// console.log(this.state.messages);
+    }
+  }
+
+  formatTime() {
+    const currentTime = new Date(),
+          hours = currentTime.getHours(),
+          mins = currentTime.getMinutes();
+
+    let formattedTime,
+        formattedMins,
+        formattedHours;
+
+    mins < 10 ? formattedMins = '0' + mins : formattedMins = mins;
+
+    hours < 13 ? formattedHours = hours : formattedHours = hours - 12;
+
+    if (hours < 12) {
+      formattedTime = formattedHours + ":" + formattedMins + " am";
+    } else {
+      formattedTime = formattedHours + ":" + formattedMins + " pm";
+    }
+
+    return formattedTime;
   }
 
   createMessage(e) {
@@ -40,15 +59,13 @@ class MessageList extends Component {
     const newMessage = e.target.elements.newMessage.value;
 
     if (newMessage) {
-      this.messaegesRef.push({
+      this.messagesRef.push({
         username: this.props.username,
         content: newMessage,
-        sentAt: this.props.firebase.ServerValue.TIMESTAMP,
+        sentAt: this.formatTime(),
         roomId: this.props.activeRoomId
       });
       e.target.elements.newMessage.value = '';
-
-      //call getRoomMessages again?
     }
   }
 
